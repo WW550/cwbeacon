@@ -1,14 +1,15 @@
-Here is a key Morse code by toggling a digital pin (e.g., D2) to ground, you can use the following approach.
+This software will key Morse code (CW) by toggling a digital pin (e.g., D2) to ground. Observe how your transceiver accepts key input. It will not generate tones.
+Use this code at your own risk.
 
-This method involves controlling a digital output pin to simulate Morse code by turning it on and off according to the desired message. This pin can be connected to an LED for visual indication or to the base of an NPN transistor (with an appropriate resistor) to key a transmitter.
+This code involves controlling a digital output pin to simulate Morse code by turning it on and off according to the desired message. This pin can be connected to an LED for visual indication or to the base of an NPN transistor (with an appropriate resistor) to key a transmitter. 
 
-Hardware Setup:
+<B>Hardware Setup:</B>
 
 Visual Indicator: Connect an LED with a suitable current-limiting resistor between keyPin (D2) and ground. This will flash the LED in Morse code.
 
 Transmitter Keying: To key a transmitter, connect keyPin to the base of an NPN transistor through a resistor (e.g., 1kΩ). Connect the collector to the transmitter's keying line and the emitter to ground. This setup allows the Arduino to safely control the transmitter's keying circuit.
 
-Notes:
+<B>Notes:</B>
 
 The dotDuration is calculated based on the desired words per minute (WPM). Adjust the wpm variable to change the speed.
 
@@ -16,4 +17,4 @@ The getMorseCode function provides Morse code representations for alphanumeric c
 
 Ensure that the keyPin is capable of sourcing enough current for your specific application. When controlling external devices, always consider using appropriate interfacing components like transistors or opto-isolators to protect the Arduino.
 
-This approach provides a straightforward method to create a Morse code beacon.
+<I>This approach provides a straightforward method to create a Morse code beacon.</I>
