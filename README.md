@@ -19,8 +19,8 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 
 <B>Versions:</B>
 There are two (2) versions. 
+<p>cwbeacon.ino = a simple CW beacon message without a tail tone</p>
 
-cwbeacon.ino = a simple CW beacon message without a tail tone
-cwbeacon+tone.ino = a simple CW beacon message with a tail tone
+<p>cwbeacon+tone.ino = a simple CW beacon message with a tail tone</p>
 
 <I>This approach provides a straightforward method to create a Morse code beacon.</I>
