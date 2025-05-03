@@ -1,4 +1,4 @@
-// Simple CW Beacon without Si5351
+// Simple CW Beacon by N4EAC
 // Outputs Morse code by toggling a digital pin (e.g., D2)
 
 const int keyPin = 2;       // Digital pin used for keying
