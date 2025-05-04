@@ -33,7 +33,7 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 ----------------------------------
 <p>Notes:</p>
 <p>TIP31 to commute TX CW</p>
-<p>Arduino → 1kΩ resistor → Base (PIN 1, TIP31) </p>
-<p>GND → Emitter (PIN 3) of TIP31 </p>
+<p>Arduino Nano (D2) → 1kΩ resistor → Base (PIN 1, TIP31) </p>
+<p>Arduino Nano (GND) → Emitter (PIN 3) of TIP31 </p>
 <p>TX key line ← Collector (PIN 2) of TIP31 </p>
 
