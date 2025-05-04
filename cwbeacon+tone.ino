@@ -4,11 +4,11 @@
 
 const int keyPin = 2;       // Digital pin used for keying
 const int wpm = 15;         // Words per minute
-const char* message = "CQ CQ CQ DE TA2BGH TA2BGH TA2BGH"; // Beacon message
+const char* message = "VVV DE N4EAC/B FM18FW"; // Beacon message
 
 // Calculate dot duration in milliseconds
 const int dotDuration = 1200 / wpm;
-const int longToneDuration = 3000; // Duration of the final long tone in milliseconds
+const int longToneDuration = 4000; // Duration of the final long tone in milliseconds (4000 ms = 4 seconds)
 
 void setup() {
   pinMode(keyPin, OUTPUT);
