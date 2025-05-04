@@ -1,4 +1,4 @@
-This software will key Morse code (CW) by toggling a digital pin (e.g., D2) to ground. Observe how your transceiver accepts key input. It will not generate tones.
+This software will key Morse code (CW) by toggling a digital pin (D2) to ground. Observe how your transceiver accepts key input. It will not generate tones.
 Use this code at your own risk.
 
 This code involves controlling a digital output pin to simulate Morse code by turning it on and off according to the desired message. This pin can be connected to an LED for visual indication or to the base of an NPN transistor (with an appropriate resistor) to key a transmitter. 
@@ -18,9 +18,10 @@ The getMorseCode function provides Morse code representations for alphanumeric c
 Ensure that the keyPin is capable of sourcing enough current for your specific application. When controlling external devices, always consider using appropriate interfacing components like transistors or opto-isolators to protect the Arduino.
 
 <B>Versions:</B>
-There are two (2) versions. 
+<p>There are two (2) versions.</p>
 <p>cwbeacon.ino = a simple CW beacon message without a tail tone</p>
-
 <p>cwbeacontone.ino = a simple CW beacon message with a tail tone</p>
+
+<p>The code is set with 15 wpm, my callsign and my grid location. You should change that information before going on the air.</p>
 
 <I>This approach provides a straightforward method to create a Morse code beacon.</I>
