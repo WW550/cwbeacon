@@ -31,8 +31,9 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 <I>This approach provides a straightforward method to create a Morse code beacon.</I>
 
 ----------------------------------
-<p>Notes for future - testing in progress</p>
-<p>NPN transistor BF199 (manufactured by NXP):</p>
-<p>D2 (Arduino) ─── 1kΩ ───> Base (BF199 pin 1)</p>
-<p>Emitter (BF199 pin 2) ───> GND</p>
-<p>Collector (BF199 pin 3) ───> TX key line</p>
+<p>Notes:</p>
+<p>TIP31 to commute TX CW</p>
+<p>Arduino → 1kΩ resistor → Base (PIN 1, TIP31) </p>
+<p>GND → Emitter (PIN 3) of TIP31 </p>
+<p>TX key line ← Collector (PIN 2) of TIP31 </p>
+
