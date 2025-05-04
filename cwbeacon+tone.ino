@@ -4,7 +4,7 @@
 
 const int keyPin = 2;       // Digital pin used for keying
 const int wpm = 15;         // Words per minute
-const char* message = "VVV DE N4EAC/B FM18FW"; // Beacon message
+const char* message = "VVV DE N4EAC/B FM18FW "; // Beacon message
 
 // Calculate dot duration in milliseconds
 const int dotDuration = 1200 / wpm;
