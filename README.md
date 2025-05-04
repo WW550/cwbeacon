@@ -23,7 +23,7 @@ The getMorseCode function provides Morse code representations for alphanumeric c
 Ensure that the keyPin is capable of sourcing enough current for your specific application. When controlling external devices, always consider using appropriate interfacing components like transistors or opto-isolators to protect the Arduino.
 
 <B>Versions:</B>
-<p>There are two (2) versions.</p>
+<p>There are currently, two versions of the code.</p>
 <p>cwbeacon.ino = a simple CW beacon message without a tail tone</p>
 <p>cwbeacontone.ino = a simple CW beacon message with a tail tone</p>
 
