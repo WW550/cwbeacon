@@ -28,3 +28,10 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 <p>The code is set with 15 wpm. Also note the beacon message has my callsign and my grid location. You should change that information before going on the air.</p>
 
 <I>This approach provides a straightforward method to create a Morse code beacon.</I>
+
+----------------------------------
+<p>Notes for future - testing in progress</p>
+<p>NPN transistor BF199 (manufactured by NXP):</p>
+<p>D2 (Arduino) ─── 1kΩ ───> Base (BF199 pin 1)</p>
+<p>Emitter (BF199 pin 2) ───> GND</p>
+<p>Collector (BF199 pin 3) ───> TX key line</p>
