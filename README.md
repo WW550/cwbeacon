@@ -1,6 +1,7 @@
 Designed with Arduino NANO as test platform.
 
-This software will key Morse code (CW) by toggling a digital pin (D2) to ground. Observe how your transceiver accepts key input. It will not generate tones.
+This software will key Morse code (CW) by toggling a digital pin (D2) to ground. 
+<p>Observe how your transceiver accepts key input. It will not generate tones.</p>
 Use this code at your own risk.
 
 This code involves controlling a digital output pin to simulate Morse code by turning it on and off according to the desired message. This pin can be connected to an LED for visual indication or to the base of an NPN transistor (with an appropriate resistor) to key a transmitter. 
