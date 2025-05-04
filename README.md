@@ -15,6 +15,8 @@ Transmitter Keying: To key a transmitter, connect keyPin to the base of an NPN t
 <B>Notes:</B>
 
 The dotDuration is calculated based on the desired words per minute (WPM). Adjust the wpm variable to change the speed.
+<p>The code is set with 15 wpm. Also note the beacon message has my callsign and my grid location. You should change that information before going on the air.</p>
+
 
 The getMorseCode function provides Morse code representations for alphanumeric characters. You can expand this function to include additional symbols as needed.
 
@@ -25,7 +27,6 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 <p>cwbeacon.ino = a simple CW beacon message without a tail tone</p>
 <p>cwbeacontone.ino = a simple CW beacon message with a tail tone</p>
 
-<p>The code is set with 15 wpm. Also note the beacon message has my callsign and my grid location. You should change that information before going on the air.</p>
 
 <I>This approach provides a straightforward method to create a Morse code beacon.</I>
 
