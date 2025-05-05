@@ -42,7 +42,7 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 ![Drawing](images/CWBEACON_TIP31_DRAW.png)
 
 <p></p>
-<p>Quick video for the TIP31 and LED wiring. This is in Portuguese but with English legends:</p>
+<p>Below a link to a quick video for the TIP31 and LED wiring. This video is in Portuguese but with English legends:</p>
 <p></p>
 
-[![Video](https://img.youtube.com/vi/b3ZLypYyTRo/maxresdefault.jpg)](https://www.youtube.com/watch?v=b3ZLypYyTRo)
+(https://www.youtube.com/watch?v=b3ZLypYyTRo)
