@@ -36,4 +36,13 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 <p>Arduino Nano (D2) → 1kΩ resistor → Base (PIN 1, TIP31) </p>
 <p>Arduino Nano (GND) → Emitter (PIN 3) of TIP31 </p>
 <p>TX key line ← Collector (PIN 2) of TIP31 </p>
+<p></p>
+<p>My poor drawing for the TIP31 and LED wiring:</p>
 
+![Drawing](images/CWBEACON_TIP31_DRAW.png)
+
+<p></p>
+<p>Quick video for the TIP31 and LED wiring:</p>
+<p></p>
+
+[![Video](https://img.youtube.com/vi/b3ZLypYyTRo/maxresdefault.jpg)](https://www.youtube.com/watch?v=b3ZLypYyTRo)
