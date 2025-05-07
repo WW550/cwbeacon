@@ -8,16 +8,16 @@ const int pttPin  = 3;  // D3 for PTT keying
 // Morse timing configuration
 const int wpm = 15;
 const int toneFreq = 720;
-const int toneDuration = 1000 / (50 * wpm); // Duration of a dot (dit) in ms
+const int toneDuration = 1200 / wpm; // Proper dot duration (ms)
 
 // Morse message
 const char* message = "VVV DE N4EAC/B FM18FW";
 
-// Morse code table (standard ITU alphabet)
+// Morse code table (ITU standard A-Z, 0-9)
 const char* morseTable[36] = {
-  ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", // A-I
-  ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", // J-R
-  "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",        // S-Z
+  ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..",       // A-I
+  ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.",     // J-R
+  "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",            // S-Z
   "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----." // 0-9
 };
 
@@ -28,20 +28,24 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(pttPin, HIGH);  // Key radio
+  // Key radio
+  digitalWrite(pttPin, HIGH);
+
+  // Send CW message
   sendMorse(message);
 
-  // 5-second carrier tone
+  // Send 5-second carrier tone
   tone(tonePin, toneFreq);
   delay(5000);
   noTone(tonePin);
 
-  digitalWrite(pttPin, LOW);   // Unkey radio
+  // Unkey radio
+  digitalWrite(pttPin, LOW);
 
-  delay(10000); // Wait 10 seconds
+  // Wait 10 seconds before repeating
+  delay(10000);
 }
 
-// Convert character to Morse string
 const char* getMorse(char c) {
   if (c >= 'A' && c <= 'Z') return morseTable[c - 'A'];
   if (c >= '0' && c <= '9') return morseTable[c - '0' + 26];
@@ -61,15 +65,17 @@ void sendMorse(const char* msg) {
 
     for (int j = 0; morse[j] != '\0'; j++) {
       tone(tonePin, toneFreq);
+
       if (morse[j] == '.') {
         delay(toneDuration); // Dot
       } else {
         delay(toneDuration * 3); // Dash
       }
+
       noTone(tonePin);
-      delay(toneDuration); // Gap between symbols
+      delay(toneDuration); // Inter-element gap
     }
 
-    delay(toneDuration * 2); // Gap between letters (3 total, 1 already counted)
+    delay(toneDuration * 2); // Inter-letter gap (total = 3 units)
   }
 }
