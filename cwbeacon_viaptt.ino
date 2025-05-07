@@ -41,6 +41,7 @@ void loop() {
   sendMorse(message);
 
   // Send a 5-second tone
+  delay(2000); // adds 2 seconds wait
   tone(tonePin, toneFreq);
   digitalWrite(cwLedPin, HIGH);
   delay(5000);
@@ -51,7 +52,7 @@ void loop() {
   digitalWrite(pttPin, LOW);
   digitalWrite(pttLedPin, LOW);
 
-  // Wait before next cycle
+  // Wait 10 seconds before next cycle
   delay(10000);
 }
 
