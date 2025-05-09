@@ -1,25 +1,26 @@
-// Experimental RTTY beacon by N4EAC
-
 #include <Arduino.h>
 
 // Pin configuration
-const int tonePin     = 2; // D2: FSK audio output
+const int tonePin     = 2; // D2: FSK tone & melody
 const int pttPin      = 3; // D3: PTT keying
 const int rttyLedPin  = 5; // D5: Bit indicator LED
 const int pttLedPin   = 4; // D4: PTT status LED
 
-// RTTY FSK tone frequencies (standard 170 Hz shift)
-const int markFreq  = 2125; // Logic 1
-const int spaceFreq = 2295; // Logic 0
+// RTTY FSK tones
+const int markFreq  = 2125;
+const int spaceFreq = 2295;
 
-// RTTY timing parameters
+// RTTY timing
 const float baudRate   = 45.45;
 const int bitDuration  = 1000 / baudRate; // ~22 ms per bit
 
-// Message to send
+// Octave-up melody frequencies
+const int melodyNotes[] = {523, 659, 784, 1047}; // C5, E5, G5, C6
+const int noteDuration = 100;
+const int noteGap = 30;
+
 const char* rttyMessage = "VVV DE N4EAC/B FM18FW";
 
-// Simplified Baudot encoding (A-Z, /)
 uint8_t getBaudot(char c) {
   c = toupper(c);
   switch (c) {
@@ -36,8 +37,8 @@ uint8_t getBaudot(char c) {
     case 'U': return 0b00110; case 'V': return 0b11110;
     case 'W': return 0b10110; case 'X': return 0b11100;
     case 'Y': return 0b10111; case 'Z': return 0b10001;
-    case '/': return 0b11111; // Placeholder for unsupported punctuation
-    default: return 0b00000;  // Null for unsupported
+    case '/': return 0b11111;
+    default:  return 0b00000;
   }
 }
 
@@ -51,7 +52,7 @@ void setup() {
 }
 
 void loop() {
-  // 1 second before transmission — PTT ON
+  // 1 second before TX
   digitalWrite(pttPin, HIGH);
   digitalWrite(pttLedPin, HIGH);
   delay(1000);
@@ -60,38 +61,36 @@ void loop() {
   for (int i = 0; rttyMessage[i] != '\0'; i++) {
     char c = rttyMessage[i];
     if (c == ' ') {
-      delay(bitDuration * 7); // Inter-word space
+      delay(bitDuration * 7);
     } else {
       sendBaudotChar(c);
     }
   }
 
-  // Stop tone generation
+  // Stop RTTY tone
   noTone(tonePin);
 
-  // Hold PTT for 1 more second after transmission
+  // Play melody (still keyed)
+  delay(3000);
+  playMelody();
+
+  // 1s delay after melody then unkey
   delay(1000);
   digitalWrite(pttPin, LOW);
   digitalWrite(pttLedPin, LOW);
 
-  // Wait 10 seconds before repeating
+  // Wait before next cycle
   delay(10000);
 }
 
 void sendBaudotChar(char c) {
   uint8_t code = getBaudot(c);
-
-  // Start bit (0)
-  sendRTTYBit(0);
-
-  // Send 5 data bits (LSB first)
+  sendRTTYBit(0); // Start bit
   for (int i = 0; i < 5; i++) {
     sendRTTYBit(code & 0x01);
     code >>= 1;
   }
-
-  // Stop bits: 1.5 bits
-  sendRTTYBit(1);
+  sendRTTYBit(1); // Stop bit
   delay(bitDuration / 2);
 }
 
@@ -100,4 +99,13 @@ void sendRTTYBit(bool bit) {
   digitalWrite(rttyLedPin, bit ? HIGH : LOW);
   delay(bitDuration);
   digitalWrite(rttyLedPin, LOW);
+}
+
+void playMelody() {
+  for (int i = 0; i < 4; i++) {
+    tone(tonePin, melodyNotes[i]);
+    delay(noteDuration);
+    noTone(tonePin);
+    delay(noteGap);
+  }
 }
