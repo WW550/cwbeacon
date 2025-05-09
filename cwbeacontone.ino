@@ -94,6 +94,10 @@ const char* getMorseCode(char c) {
     case '8': return "---..";
     case '9': return "----.";
     case '0': return "-----";
+    case '?': return "..--..";
+    case '=': return "-...-";
+    case ',': return "--..--";
+    case '/': return "-..-.";
     default: return NULL;
   }
 }
