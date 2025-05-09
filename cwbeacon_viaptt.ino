@@ -58,6 +58,10 @@ void loop() {
 const char* getMorse(char c) {
   if (c >= 'A' && c <= 'Z') return morseTable[c - 'A'];
   if (c >= '0' && c <= '9') return morseTable[c - '0' + 26];
+  if (c == '?') return "..--..";
+  if (c == '=') return "-...-";
+  if (c == ',') return "--..--";
+  if (c == '/') return "-..-.";
   return ""; // Ignore unsupported characters
 }
 
