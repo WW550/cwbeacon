@@ -49,7 +49,7 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 
 <p></p>
 -----------------------------------
-<p>RTTY BEACON</p>
+<p>RTTY BEACON rttybeacon.ino</p>
 <p>This is experimental</p>
 
 <p>D2: Outputs 2125/2295 Hz FSK RTTY signal.</p>
