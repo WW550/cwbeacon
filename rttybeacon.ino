@@ -1,3 +1,6 @@
+// RTTY beacon with quick melody marking the end by N4EAC
+// Note Arduino.h is automatically included when using Arduino IDE to program
+
 #include <Arduino.h>
 
 // Pin configuration
