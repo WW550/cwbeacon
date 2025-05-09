@@ -1,6 +1,5 @@
-
 // Simple CW Beacon by N4EAC May 3 2025
-// Outputs Morse code by toggling a digital pin (e.g., D2)
+// Outputs Morse code by toggling a digital pin D2 and adds a long tone at the end
 
 const int keyPin = 2;       // Digital pin used for keying
 const int wpm = 15;         // Words per minute
@@ -8,7 +7,7 @@ const char* message = "VVV DE N4EAC/B FM18FW "; // Beacon message
 
 // Calculate dot duration in milliseconds
 const int dotDuration = 1200 / wpm;
-const int longToneDuration = 4000; // Duration of the final long tone in milliseconds (4000 ms = 4 seconds)
+const int longToneDuration = 6000; // Duration of the final long tone in milliseconds (6000 ms = 6 seconds)
 
 void setup() {
   pinMode(keyPin, OUTPUT);
