@@ -1,5 +1,6 @@
 // CW beacon by N4EAC for Arduino Nano
-// Use for PTT and audio line
+// Use for PTT and audio line - sends 6 sec tone at the end and unkey radio for 10 seconds
+
 // Pin configuration
 const int tonePin = 2;     // D2 for CW tone (720 Hz)
 const int pttPin  = 3;     // D3 for PTT keying
@@ -35,22 +36,26 @@ void loop() {
   // Key the radio
   digitalWrite(pttPin, HIGH);
   digitalWrite(pttLedPin, HIGH);
+  delay(1000); // this allows to key the radio 1 second before sending the code
 
   // Send CW Morse message
   sendMorse(message);
 
-  // Send a 5-second tone
+  // Send a 6-second tone
+  delay(2000);
   tone(tonePin, toneFreq);
   digitalWrite(cwLedPin, HIGH);
-  delay(5000);
+  delay(6000);
   noTone(tonePin);
   digitalWrite(cwLedPin, LOW);
 
   // Unkey the radio
+  delay(1000); // hold key for 1 second before unkey
   digitalWrite(pttPin, LOW);
   digitalWrite(pttLedPin, LOW);
+  
 
-  // Wait before next cycle
+  // Wait 10 seconds before next cycle
   delay(10000);
 }
 
