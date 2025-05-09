@@ -42,8 +42,24 @@ Ensure that the keyPin is capable of sourcing enough current for your specific a
 
 ![Drawing](images/CWBEACON_TIP31_DRAW.png)
 
-<p></p>
 <p>Below a link to a quick video for the TIP31 and LED wiring. This video is in Portuguese but with English legends:</p>
 <p></p>
 
 (https://www.youtube.com/watch?v=b3ZLypYyTRo)
+
+<p></p>
+-----------------------------------
+<p>RTTY BEACON</p>
+<p>This is experimental</p>
+
+<p>D2: Outputs 2125/2295 Hz FSK RTTY signal.</p>
+
+<p>D3 (PTT): Goes HIGH 1 second before transmission and stays HIGH 1 second after.</p>
+
+<p>D4 LED: Lights up during the entire PTT active period.</p>
+
+<p>D5 LED: Flashes on each transmitted bit.</p>
+
+<p>noTone() is called to stop the tone after transmission ends (fixes continuous tone issue).</p>
+
+<p>RTTY format: 5N1.5 Baudot, ~45.45 baud, UPPERCASE only.</p>
