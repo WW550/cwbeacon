@@ -1,6 +1,5 @@
-// CW traning buzzer or speaker or both with push button trigger by N4EAC
-
-
+// CW traning with buzzer or speaker or both and push button trigger by N4EAC
+// Feel free to copy - modify
 
 const int buttonPin = 2;     // Push button input
 const int tonePin = 9;       // Transistor driving speaker
