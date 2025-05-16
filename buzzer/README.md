@@ -1,19 +1,19 @@
 <b>Components</b>
 <p>Arduino Pro Mini (5V)</p>
 
-<p>NPN transistor (e.g., 2N2222, BC547, or TIP31 for larger speakers)</p>
+<p>NPN transistor (e.g., 2N2222, BC547, or TIP31 for larger speakers) - not required for small speakers</p>
 
-<p>Speaker (8Ω, small or mid-sized)</p>
+<p>Speaker (8Ω, small or mid-sized) - add a potentiometer if you wish to control volume</p>
 
-<p>Resistor: 1kΩ for transistor base</p>
+<p>Resistor: 1kΩ for transistor base - if using a transistor to amplify audio</p>
 
 <p>Diode (optional, for back EMF if you're using a coil)</p>
 
-<p>Push-button</p>
+<p>Push-button - or female P2 plug connector to plug your key</p>
 
-<p>Piezo buzzer (active) for pin 8</p>
+<p>Piezo buzzer (active) for pin 8 - this is alternative if not using a speaker</p>
 
-<p>Breadboard + jumper wires</p>
+<p>Breadboard + jumper wires - this if you don't want to make it a permanent project</p>
 <p></p>
 <p></p>
 <p><b>Hardware Wiring</b></p>
