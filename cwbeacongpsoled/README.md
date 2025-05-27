@@ -27,12 +27,12 @@ To install:
 2. Go to **Sketch > Include Library > Manage Libraries**
 3. Search for `TinyGPSPlus` and install it
 
-For the 0.96 OLED:
+For the 0.96 OLED:<p></p>
 
-Adafruit_SSD1306
-Adafruit_GFX
-Adafruit BusIO 
-To install:
+Adafruit_SSD1306<p></p>
+Adafruit_GFX<p></p>
+Adafruit BusIO <p></p>
+To install:<p></p>
 1. Open the Arduino IDE
 2. Go to **Sketch > Include Library > Manage Libraries**
 3. For Adafruit_SSD1306, search for `SSD1306` and install it (only / no dependencies)
