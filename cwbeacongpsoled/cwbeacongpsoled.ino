@@ -1,4 +1,3 @@
-// CW Beacon with GPS Time Restriction, OLED Display, GPS Lock Indicator, and Debug Output – With OLED Init Fix
 
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
@@ -10,35 +9,36 @@
 #define SCREEN_HEIGHT 32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-const int keyPin = 2;        // CW keying pin
-const int gpsRxPin = 3;      // GPS module TX → Arduino D3
-const int gpsTxPin = 4;      // Not used, but required for SoftwareSerial
+const int keyPin = 2;
+const int txLedPin = LED_BUILTIN;
+const int gpsRxPin = 3;
+const int gpsTxPin = 4;
 
-const int wpm = 15;
-const char* message = "VVV DE N4EAC/B FM18FW ";
+const int wpm = 20;
 const int dotDuration = 1200 / wpm;
 const int longToneDuration = 6000;
+
+const char* message = "VVV DE N4EAC/B FM18FW ";
 
 SoftwareSerial gpsSerial(gpsRxPin, gpsTxPin);
 TinyGPSPlus gps;
 
-unsigned long lastBlinkTime = 0;
-bool blinkState = false;
+int calculateDayOfWeek(int year, int month, int day);
 
 void setup() {
   pinMode(keyPin, OUTPUT);
+  pinMode(txLedPin, OUTPUT);
   digitalWrite(keyPin, LOW);
-  gpsSerial.begin(9600); // comment out for memory test if needed
-  Serial.begin(9600);
+  digitalWrite(txLedPin, LOW);
+  gpsSerial.begin(9600);
 
-  delay(1000); // Give OLED time to power up
+  delay(100);
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("OLED not found. Check wiring or I2C address."));
-    for (;;);
+    while (true);
   }
 
   display.clearDisplay();
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0, 0);
   display.println("CW BEACON");
@@ -47,89 +47,59 @@ void setup() {
 }
 
 void loop() {
-  while (gpsSerial.available()) {
-    gps.encode(gpsSerial.read());
-  }
-
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0, 0);
-  display.println("CW BEACON DE N4EAC");
-
-  if (gps.time.isValid() && gps.date.isValid()) {
-    int hour = gps.time.hour();
-    int minute = gps.time.minute();
-    int second = gps.time.second();
-
-    int day = gps.date.day();
-    int month = gps.date.month();
-    int year = gps.date.year();
-
-    int dow = calculateDayOfWeek(year, month, day);
-    const char* dowStr[] = {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-
-    // DEBUG OUTPUT
-    Serial.print("Time valid: ");
-    Serial.print(gps.time.isValid());
-    Serial.print(" | Date valid: ");
-    Serial.print(gps.date.isValid());
-    Serial.print(" | UTC Hour: ");
-    Serial.print(hour);
-    Serial.print(" | DOW: ");
-    Serial.print(dow);
-    Serial.println();
-
-    display.setCursor(0, 10);
-    display.println(dowStr[dow]);
-
-    display.setCursor(0, 23);
-    display.print("UTC ");
-    if (hour < 10) display.print("0");
-    display.print(hour);
-    display.print(":");
-    if (minute < 10) display.print("0");
-    display.print(minute);
-    display.print(":");
-    if (second < 10) display.print("0");
-    display.print(second);
-
-    // Blink GPS lock indicator
-    if (millis() - lastBlinkTime > 500) {
-      blinkState = !blinkState;
-      lastBlinkTime = millis();
-    }
-    if (blinkState) {
-      display.fillRect(120, 0, 6, 6, SSD1306_WHITE);
-    } else {
-      display.fillRect(120, 0, 6, 6, SSD1306_BLACK);
-    }
-
-    display.display();
-
-    // ✅ Only send CW if all conditions met
-    if (dow >= 2 && dow <= 6 && hour >= 10 && hour < 22) {
-      Serial.println(">>> Sending CW <<<");
-      sendMessage(message);
-      delay(5000);
-    }
-  } else {
-    Serial.println("GPS time or date not valid.");
-    display.setCursor(0, 16);
+  // STEP 1: WAIT FOR VALID GPS TIME
+  while (!gps.time.isValid() || !gps.date.isValid()) {
+    while (gpsSerial.available()) gps.encode(gpsSerial.read());
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.println("CW BEACON");
+    display.setCursor(0, 12);
     display.println("Waiting for GPS...");
     display.display();
+    delay(500);
   }
-}
 
-int calculateDayOfWeek(int year, int month, int day) {
-  if (month < 3) {
-    month += 12;
-    year -= 1;
+  // STEP 2: GET AND DISPLAY CURRENT TIME AND WEEKDAY
+  // Re-read GPS bytes before display to ensure latest time
+  for (unsigned long start = millis(); millis() - start < 1500;) {
+    while (gpsSerial.available()) gps.encode(gpsSerial.read());
   }
-  int k = year % 100;
-  int j = year / 100;
-  int h = (day + 13 * (month + 1) / 5 + k + k / 4 + j / 4 + 5 * j) % 7;
-  return ((h + 6) % 7);
+  int hour = gps.time.hour();
+  int minute = gps.time.minute();
+  int second = gps.time.second();
+  int year = gps.date.year();
+  int month = gps.date.month();
+  int day = gps.date.day();
+  int dow = calculateDayOfWeek(year, month, day);
+
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.println("CW BEACON");
+
+  const char* dowStr[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+  display.setCursor(0, 12);
+  display.println(dowStr[dow]);
+
+  display.setCursor(0, 25);
+  display.print("UTC ");
+  if (hour < 10) display.print("0");
+  display.print(hour); display.print(":");
+  if (minute < 10) display.print("0");
+  display.print(minute); display.print(":");
+  if (second < 10) display.print("0");
+  display.print(second);
+
+  display.display();
+  delay(500); // Short delay to let user see update
+
+  // STEP 3: SEND CW IF WITHIN ALLOWED TIME WINDOW (Mon–Fri, 10–22 UTC)
+  if (dow >= 1 && dow <= 5 && hour >= 10 && hour < 22) {
+    digitalWrite(txLedPin, HIGH);
+    sendMessage(message);
+    digitalWrite(txLedPin, LOW);
+  }
+
+  delay(2000); // Wait before repeating
 }
 
 void sendMessage(const char* msg) {
@@ -148,7 +118,7 @@ void sendMessage(const char* msg) {
 
 void sendChar(char c) {
   const char* code = getMorseCode(c);
-  if (code == NULL) return;
+  if (!code) return;
 
   for (int i = 0; code[i] != '\0'; i++) {
     if (code[i] == '.') {
@@ -166,48 +136,30 @@ void keyDown(int duration) {
   digitalWrite(keyPin, LOW);
 }
 
+int calculateDayOfWeek(int year, int month, int day) {
+  if (month < 3) { month += 12; year -= 1; }
+  int k = year % 100;
+  int j = year / 100;
+  int h = (day + 13 * (month + 1) / 5 + k + k / 4 + j / 4 + 5 * j) % 7;
+  return (h + 6) % 7; // Sunday = 0, Monday = 1, ..., Saturday = 6
+}
+
 const char* getMorseCode(char c) {
   switch (c) {
-    case 'A': return ".-";
-    case 'B': return "-...";
-    case 'C': return "-.-.";
-    case 'D': return "-..";
-    case 'E': return ".";
-    case 'F': return "..-.";
-    case 'G': return "--.";
-    case 'H': return "....";
-    case 'I': return "..";
-    case 'J': return ".---";
-    case 'K': return "-.-";
-    case 'L': return ".-..";
-    case 'M': return "--";
-    case 'N': return "-.";
-    case 'O': return "---";
-    case 'P': return ".--.";
-    case 'Q': return "--.-";
-    case 'R': return ".-.";
-    case 'S': return "...";
-    case 'T': return "-";
-    case 'U': return "..-";
-    case 'V': return "...-";
-    case 'W': return ".--";
-    case 'X': return "-..-";
-    case 'Y': return "-.--";
-    case 'Z': return "--..";
-    case '1': return ".----";
-    case '2': return "..---";
-    case '3': return "...--";
-    case '4': return "....-";
-    case '5': return ".....";
-    case '6': return "-....";
-    case '7': return "--...";
-    case '8': return "---..";
-    case '9': return "----.";
-    case '0': return "-----";
-    case '?': return "..--..";
-    case '=': return "-...-";
-    case ',': return "--..--";
-    case '/': return "-..-.";
-    default: return NULL;
+    case 'A': return ".-";    case 'B': return "-...";  case 'C': return "-.-.";
+    case 'D': return "-..";   case 'E': return ".";     case 'F': return "..-.";
+    case 'G': return "--.";   case 'H': return "....";  case 'I': return "..";
+    case 'J': return ".---";  case 'K': return "-.-";   case 'L': return ".-..";
+    case 'M': return "--";    case 'N': return "-.";    case 'O': return "---";
+    case 'P': return ".--.";  case 'Q': return "--.-";  case 'R': return ".-.";
+    case 'S': return "...";   case 'T': return "-";     case 'U': return "..-";
+    case 'V': return "...-";  case 'W': return ".--";   case 'X': return "-..-";
+    case 'Y': return "-.--";  case 'Z': return "--..";
+    case '1': return ".----"; case '2': return "..---"; case '3': return "...--";
+    case '4': return "....-"; case '5': return "....."; case '6': return "-....";
+    case '7': return "--..."; case '8': return "---.."; case '9': return "----.";
+    case '0': return "-----"; case '?': return "..--..";case '=': return "-...-";
+    case ',': return "--..--";case '/': return "-..-.";
+    default: return nullptr;
   }
 }
