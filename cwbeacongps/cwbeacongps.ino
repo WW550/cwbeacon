@@ -1,4 +1,4 @@
-// CW Beacon with GPS Time Restriction (Weekdays only) by N4EAC – Modified May 2025
+// CW Beacon with GPS Time Restriction (Weekdays only) by N4EAC – May 26 2025
 
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
