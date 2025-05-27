@@ -1,3 +1,5 @@
+// GPS controlled CW beacon with OLED display de Eduardo N4EAC May 26 2025
+// Collects GPS signal time then looks to see if within schedule and proceeds to update display before sending CW beacon
 
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
