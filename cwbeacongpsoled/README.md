@@ -39,4 +39,6 @@ To install:<p></p>
 4. For Adafruit_GFX, search for “GFX” and install it (this iis a dependency needed)
 5. For Adafruit_BusIO, search for “BusIO” and install it (this iis a dependency needed)
 
+
+
 ![Drawing](hardware_connections.png)
