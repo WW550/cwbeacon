@@ -41,4 +41,4 @@ To install:<p></p>
 
 
 
-![Drawing](hardware_connections.png)
+
