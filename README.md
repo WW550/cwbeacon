@@ -23,12 +23,14 @@ The getMorseCode function provides Morse code representations for alphanumeric c
 Ensure that the keyPin is capable of sourcing enough current for your specific application. When controlling external devices, always consider using appropriate interfacing components like transistors or opto-isolators to protect the Arduino.
 
 <B>Versions:</B>
-<p>There are currently, three versions of the code.</p>
+<p>There are currently, a few versions of the code.</p>
 <p></p>
 <p> - <b>cwbeacon.ino</b> = a simple CW beacon message without a tail tone. (TESTED OK)</p>
 <p> - <b>cwbeacontone.ino</b>  = a simple CW beacon message with a tail tone (TESTED OK)</p>
-<p> - <b>cwbeacon_viaptt.ino</b>  = uses the radio PTT key and audio input instead of the CW keyer (UNTESTED)</p>
-
+<p> - <b>cwbeacon_viaptt.ino</b>  = uses the radio PTT key and audio input instead of the CW keyer (TESTED OK)</p>
+<p> - <b>rttybeacon.ino</b> = a simple RTTY beacon message. (TESTED OK)</p>
+<p> - <b>cwbeacongps.ino</b> = schedule CW beacon with time taken from GPS. requires GPS receiver. (TESTED OK)</p>
+<p> - <b>cwbeacongpsoled.ino</b> = scheduled CW beacon with time taken from GPS and an OLED screen to view UTC time and weekday.</p>
 <p></p>
 
 ----------------------------------
